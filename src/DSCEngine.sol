@@ -62,6 +62,7 @@ contract DSCEngine is ReentrancyGuard {
     error DSCEngine__HealthFactorOk();
     error DSCEngine__HealthFactorNotImproved();
     error DSCEngine__TokenNotAllowed(address token);
+    error DSCEngine__TnsufficientBalance(amount);
 
     /*<==================== Types ====================>*/
     /*_________________________________________________*/
@@ -250,6 +251,9 @@ contract DSCEngine is ReentrancyGuard {
     /*<==================== Internal Functions ====================>*/
     /*______________________________________________________________*/
     function _redeemCollateral(address from, address to, address tokenCollateralAddress, uint256 amountCollateral) internal {
+        if (amountCollateral > s_collateralDeposited[from][tokenCollateralAddress]) {
+            revert DSCEngine__TnsufficientBalance(s_collateralDeposited[from][tokenCollateralAddress]);
+        }
         s_collateralDeposited[from][tokenCollateralAddress] -= amountCollateral;
         emit CollateralRedeemed(from, to, tokenCollateralAddress, amountCollateral);
         bool success = IERC20(tokenCollateralAddress).transfer(to, amountCollateral);
