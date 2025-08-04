@@ -34,7 +34,9 @@ contract Handler is Test {
     }
 
     function depositCollateral(uint256 collateralSeed, uint256 amountCollateral) public {
+        console.log("sender", msg.sender);
         ERC20Mock collateral = _getCollateralFromSeed(collateralSeed);
+        console.log("sender token", address(collateral));
         amountCollateral = bound(amountCollateral, 1, MAX_DEPOSIT_SIZE);
         
         vm.startPrank(msg.sender);
@@ -48,6 +50,7 @@ contract Handler is Test {
     }
 
     function mintDsc(uint256 amountDsc, uint256 adsdressSeed) public {
+        console.log("sender", msg.sender);
         if (usersWithCollateralDeposited.length == 0) {
             return;
         }
@@ -69,8 +72,10 @@ contract Handler is Test {
     }
 
     function redeemCollateral(uint256 collateralSeed, uint256 amountCollateral) public {
+        console.log("sender", msg.sender);
         amountCollateral = bound(amountCollateral, 0, MAX_DEPOSIT_SIZE);
         ERC20Mock collateral = _getCollateralFromSeed(collateralSeed);
+        console.log("sender token for redeem", address(collateral));
         uint256 maxCollateralToRedeem = dsce.getCollateralBalanceOfUser(msg.sender, address(collateral));
 
         ( , uint256 collateralValurInUsd) = dsce.getAccountInformation(msg.sender);
