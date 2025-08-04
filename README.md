@@ -13,7 +13,7 @@ Instalations- forge install smartcontractkit/chainlink-brownie-contracts@0.6.1 -
 
 git branch -m master main
 git init
-git remote add origin https://github.com/Khorshed-Alom/    .git
+git remote add origin https://github.com/Khorshed-Alom/Nest-StableCoin.git
 git add .
 git commit -m "Initial commit"
 git push -u origin main
